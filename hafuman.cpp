@@ -2,46 +2,47 @@
 #include <stdlib.h> 
 #define MaxSize 50 
 typedef struct{ 
-    char c;                       //´úÂë; 
-    int w;                       //´úÂëÈ¨Öµ; 
-    char code[MaxSize];           //´úÂëµÄHuffman±àÂë; 
+    char c;                       //ä»£ç ; 
+    int w;                       //ä»£ç æƒå€¼; 
+    char code[MaxSize];           //ä»£ç çš„Huffmanç¼–ç ; 
     }HuffCode[MaxSize]; 
 typedef struct{ 
-    int Weight;                   //È¨Öµ; 
+    int Weight;                   //æƒå€¼; 
     int LChild,RChild,Parent; 
     }HTNode,HuffTree[MaxSize]; 
 //================================================================================ 
-void HuffmanTree(HuffTree HT,int length,HuffCode hc);        //Éú³ÉHuffmanÊ÷; 
-void SelectHTNode(HuffTree HT,int n,int *min1,int *min2);    //²éÕÒ×îĞ¡ºÍ´ÎĞ¡ĞòºÅ; 
-void HuffmanCode(HuffTree HT,int len,HuffCode hc);            //Éú³ÉHuffman±àÂë; 
+void HuffmanTree(HuffTree HT,int length,HuffCode hc);        //ç”ŸæˆHuffmanæ ‘; 
+void SelectHTNode(HuffTree HT,int n,int *min1,int *min2);    //æŸ¥æ‰¾æœ€å°å’Œæ¬¡å°åºå·; 
+void HuffmanCode(HuffTree HT,int len,HuffCode hc);            //ç”ŸæˆHuffmanç¼–ç ; 
 //================================================================================ 
 int main(void) 
 { 
-    HuffTree HT;       //HuffmanÊ÷; 
-    HuffCode HC;       //Huffman±àÂë; 
+    HuffTree HT;       //Huffmanæ ‘; 
+    HuffCode HC;       //Huffmanç¼–ç ; 
     int i,len; 
-    printf("<<<<  Huffman±àÂëÉú³É³ÌĞò  >>>>\t\tby Haroldi.\n\n  Çë°ïÖúÆÀ¼ÛÒ»ÏÂË¼Â·¼°¸ÄÉÆÒâ¼û!\t¶àĞ»ÁË:-)...\n\n\n\n"); 
-    printf("\nÊäÈë´úÂëÊıÁ¿£º");    scanf("%d",&len); system("cls");printf("´úÂëÊıÁ¿£º%2d\n\n",len); 
-    printf("ÊäÈë´úÂë¼°È¨Öµ(e.g.:  \"a16[»Ø³µ]\" )£º\n"); 
+    printf("<<<<  Huffmanç¼–ç ç”Ÿæˆç¨‹åº  >>>>\t\tby Haroldi.\n\n  è¯·å¸®åŠ©è¯„ä»·ä¸€ä¸‹æ€è·¯åŠæ”¹å–„æ„è§!\tå¤šè°¢äº†:-)...\n\n\n\n"); 
+    printf("\nè¾“å…¥ä»£ç æ•°é‡ï¼š");    scanf("%d",&len); system("cls");printf("ä»£ç æ•°é‡ï¼š%2d\n\n",len); 
+    printf("è¾“å…¥ä»£ç åŠæƒå€¼(e.g.:  \"a16[å›è½¦]\" )ï¼š\n"); 
     for(i=1;i <= len;i++) 
     { 
         while(getchar() != '\n')    NULL; 
-        printf("No.%2d£º  ",i); 
+        printf("No.%2dï¼š  ",i); 
         HC[i].c = getchar(); 
+        printf("%c,å‡ºç°çš„æ¬¡æ•°ï¼š",HC[i].c);
         scanf("%d",&HC[i].w); 
     } 
     HuffmanTree(HT,len,HC); 
     HuffmanCode(HT,len,HC); 
 
-    printf("\nÊä³öHuffman±àÂë£º\n"); 
+    printf("\nè¾“å‡ºHuffmanç¼–ç ï¼š\n"); 
     for(i = 1;i<=len;i++) 
     { 
         printf("\n %c :",HC[i].c); 
         puts(HC[i].code); 
     } 
-//²âÊÔHuffmanÊ÷½á¹¹; 
-    printf("\n\nÊä³öHuffmanÊ÷½á¹¹£º");system("pause"); 
-    printf("\nHT[i]:\tÈ¨Öµ\tË«Ç×\t×óº¢×Ó\tÓÒº¢×Ó\n"); 
+//æµ‹è¯•Huffmanæ ‘ç»“æ„; 
+    printf("\n\nè¾“å‡ºHuffmanæ ‘ç»“æ„ï¼š");system("pause"); 
+    printf("\nHT[i]:\tæƒå€¼\tåŒäº²\tå·¦å­©å­\tå³å­©å­\n"); 
     for(i = 1;i<2*len;i++) 
     { 
         if(i <= len)    printf("(%c)",HC[i].c); 
@@ -51,7 +52,7 @@ int main(void)
     return 0; 
 } 
 //================================================================================ 
-void HuffmanTree(HuffTree HT,int length,HuffCode hc)       //HuffmanÊ÷³õÊ¼»¯; 
+void HuffmanTree(HuffTree HT,int length,HuffCode hc)       //Huffmanæ ‘åˆå§‹åŒ–; 
 { 
     int i,min1,min2; 
     HT[0].Weight = 65535; 
@@ -60,7 +61,7 @@ void HuffmanTree(HuffTree HT,int length,HuffCode hc)       //HuffmanÊ÷³õÊ¼»¯;
         HT[i].Weight = hc[i].w; 
         HT[i].LChild = HT[i].RChild = HT[i].Parent = -1; 
     } 
-    for(;i < 2*length;i++)            //i³õÖµ = length+1; 
+    for(;i < 2*length;i++)            //iåˆå€¼ = length+1; 
     { 
         HT[i].LChild = HT[i].RChild = HT[i].Parent = -1; 
     } 
@@ -76,7 +77,7 @@ void HuffmanTree(HuffTree HT,int length,HuffCode hc)       //HuffmanÊ÷³õÊ¼»¯;
     } 
 } 
 //================================================================================ 
-void SelectHTNode(HuffTree HT,int n,int *min1,int *min2)    //²éÕÒ×îĞ¡ºÍ´ÎĞ¡ĞòºÅ; 
+void SelectHTNode(HuffTree HT,int n,int *min1,int *min2)    //æŸ¥æ‰¾æœ€å°å’Œæ¬¡å°åºå·; 
 { 
     int i; 
     *min1 = *min2 = 0; 
@@ -94,30 +95,30 @@ void SelectHTNode(HuffTree HT,int n,int *min1,int *min2)    //²éÕÒ×îĞ¡ºÍ´ÎĞ¡ĞòºÅ
     } 
 } 
 //================================================================================ 
-void HuffmanCode(HuffTree HT,int len,HuffCode hc)         //Éú³ÉHuffman±àÂë; 
+void HuffmanCode(HuffTree HT,int len,HuffCode hc)         //ç”ŸæˆHuffmanç¼–ç ; 
 { 
     int i,j,tc,Stack[MaxSize],top = -1; 
     char flag[MaxSize]; 
     HTNode th; 
     for(i = 1;i <= len;i++) 
     { 
-        top = -1;                        //Õ»³õÊ¼»¯; 
-        j = 0;                            //hc[i].code´®Ê×Î»ÖÃÆ«ÒÆ; 
-        th = HT[i];                        //µ±Ç°½áµãth; 
-        tc = i;                            //µ±Ç°½áµã±ê¼Çtc; 
+        top = -1;                        //æ ˆåˆå§‹åŒ–; 
+        j = 0;                            //hc[i].codeä¸²é¦–ä½ç½®åç§»; 
+        th = HT[i];                        //å½“å‰ç»“ç‚¹th; 
+        tc = i;                            //å½“å‰ç»“ç‚¹æ ‡è®°tc; 
         while(th.Parent != -1) 
-        {            //µ±Ç°½áµãthË«Ç×PÈëÕ»,ÓÉPµÄº¢×ÓÊÇth,È·¶¨flag;È·¶¨ÏÂ´Î½áµã±ê¼Çtc; 
+        {            //å½“å‰ç»“ç‚¹thåŒäº²På…¥æ ˆ,ç”±Pçš„å­©å­æ˜¯th,ç¡®å®šflag;ç¡®å®šä¸‹æ¬¡ç»“ç‚¹æ ‡è®°tc; 
             Stack[++top] = th.Parent; 
             if(HT[th.Parent].LChild == tc)    {flag[top] = 'L'; tc = th.Parent;} 
             if(HT[th.Parent].RChild == tc)    {flag[top] = 'R'; tc = th.Parent;} 
-            th = HT[Stack[top]];        //ÏÂÒ»½áµã; 
+            th = HT[Stack[top]];        //ä¸‹ä¸€ç»“ç‚¹; 
         }                                
         while(top != -1) 
         { 
             if(flag[top] == 'L')    hc[i].code[j++] ='0'; 
             else                    hc[i].code[j++] ='1'; 
-            Stack[top--];                //³öÕ»; 
+            Stack[top--];                //å‡ºæ ˆ; 
         } 
-        hc[i].code[j] ='\0';            //µ±Ç°´®½áÊø; 
+        hc[i].code[j] ='\0';            //å½“å‰ä¸²ç»“æŸ; 
     }          
 }
